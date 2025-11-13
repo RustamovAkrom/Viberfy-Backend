@@ -4,15 +4,17 @@ from django.utils.translation import gettext_lazy as _
 from dotenv import load_dotenv, find_dotenv
 from core.config import *  # noqa
 
-load_dotenv(find_dotenv(".env"))
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 SECRET_KEY = str(os.getenv("SECRET_KEY"))
 
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
-CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",")
-CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "").split(",")
+ALLOWED_HOSTS = [host.strip for host in os.getenv("ALLOWED_HOSTS", "").split(",")]
+
+CSRF_TRUSTED_ORIGINS = [host.strip() for host in os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",")]
+CORS_ALLOWED_ORIGINS = [host.strip() for host in os.getenv("CORS_ALLOWED_ORIGINS", "").split(",")]
+
 CORS_ALLOW_CREDENTIALS = True
 
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:3000")
